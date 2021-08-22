@@ -114,7 +114,7 @@ public class JXON implements Configurable, Copyable{
     /**
      * Gets the object associated to the provided tag
      * @param tag Tag/key to analyze
-     * @return Object associated to the provided tag, </i>null</i> otherwise
+     * @return Object associated to the provided tag, <i>null</i> otherwise
      */
     public Object get(String tag) { return attributes.get(tag); }
     
@@ -213,7 +213,7 @@ public class JXON implements Configurable, Copyable{
     /**
      * Determines if an object can be stored by the JXON
      * @param obj Object to analyze
-     * @return </i>true</i> If the provided object can be stored  by the JXON, </i>false</i> otherwise
+     * @return <i>true</i> If the provided object can be stored  by the JXON, <i>false</i> otherwise
      */
     public boolean storable(Object obj){
 	if( obj instanceof Object[] ){
@@ -257,21 +257,19 @@ public class JXON implements Configurable, Copyable{
      */
     @Override
     public Copyable copy(){ 
-	JXON json = new JXON(extended);
-	json.attributes = Copier.apply(attributes);
-	return json; 
+	JXON jxon = new JXON(extended);
+	jxon.attributes = Copier.apply(attributes);
+	return jxon; 
     }
     
     /**
      * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JXON configuration information
-     * @param obj Object to be configured.
      * @param jxon Configuration information
-     * @return A configured version of the <i>obj</i>, a new instance if <i>null</i> was provided as <i>obj</i> parameter
      */
     @Override
-    public void config(JXON json){
+    public void config(JXON jxon){
 	attributes.clear();
-	extended = json.extended;
-	attributes = Copier.apply(json.attributes);
+	extended = jxon.extended;
+	attributes = Copier.apply(jxon.attributes);
     }
 }
