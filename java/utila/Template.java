@@ -38,9 +38,10 @@
  */
 package utila;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import speco.jxon.JXON;
 
 /**
  * <p>Title: Template</p>
@@ -80,7 +81,7 @@ public class Template {
      * @param dictionary Set of pairs <i>(TAG,value)</i> used for replacing each <i>TAG</i> by its corresponding <i>value</i>
      * @return A String from a template by replacing the set of tags with their associated values. 
      */
-    public static String get(String str, HashMap<String,String> dictionary){
+    public static String get(String str, JXON dictionary){
 	return get(str, dictionary, '·');
     }
 	
@@ -93,7 +94,7 @@ public class Template {
      * @param c Enclosing tag character
      * @return A String from a template by replacing the set of tags with their associated values. 
      */		
-    public static String get(String str, HashMap<String,String> dictionary, char c){
+    public static String get(String str, JXON dictionary, char c){
 	Pattern pattern = get(c);
 	Matcher matcher = pattern.matcher(str);
 	int start = 0;
@@ -105,7 +106,7 @@ public class Template {
 		String tag = matched.substring(1, matched.length()-1);
 		tag = tag.replace("\\"+c, ""+c);
 		sb.append(str.substring(start,nstart));
-		String txt = dictionary.get(tag);
+		String txt = dictionary.string(tag);
 		if( txt==null ) txt = tag;
 		sb.append(txt);
 		start = nstart+matched.length();
