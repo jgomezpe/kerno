@@ -1,5 +1,5 @@
 /**
- * <p>Utility classes and methods (I18N, and Template).</p>
+ * <p>General Object interfaces, classes and methods (Configurable, Identifiable, JXONfyable, Named ).</p>
  *
  * <p>Copyright: Copyright (c) 2019</p>
  *
@@ -38,4 +38,4 @@
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-package utila;
+package speco.object;

@@ -1,5 +1,5 @@
 /**
- * <p>Utility classes and methods (I18N, and Template).</p>
+ * <p>Comparison interfaces, classes and methods (Comparator, and Order).</p>
  *
  * <p>Copyright: Copyright (c) 2019</p>
  *
@@ -38,4 +38,4 @@
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-package utila;
+package kompari;
