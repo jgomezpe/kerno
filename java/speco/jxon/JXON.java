@@ -119,9 +119,9 @@ public class JXON implements Configurable, Copyable{
 	public Object get(String tag) { return attributes.get(tag); }
     
 	/**
-	 * Gets the double number associated to the provided tag
+	 * Gets the Double associated to the provided tag
 	 * @param tag Tag to analyze
-	 * @return Double number associated to the provided tag, <i>null</i> if no double number is associated to the tag
+	 * @return Double associated to the provided tag, <i>null</i> if no Double is associated to the tag
 	 */
 	public Double real( String tag ){
 		try{
@@ -133,18 +133,51 @@ public class JXON implements Configurable, Copyable{
 	}
 	
 	/**
-	 * Gets the integer number associated to the provided tag
+	 * Gets the double associated to the provided tag
 	 * @param tag Tag to analyze
-	 * @return Integer number associated to the provided tag, <i>0</i> if no integer number is associated to the tag
+	 * @param  ifNoFound Value to return if the tag does not have associated a double
+	 * @return Double associated to the provided tag, <i>ifNoFound</i> if no Double is associated to the tag
+	 */
+	public double real( String tag, double ifNoFound ){
+		Double v = real(tag);
+		return v==null?ifNoFound:v;
+	}
+	
+	/**
+	 * Gets the Integer associated to the provided tag
+	 * @param tag Tag to analyze
+	 * @return Integer associated to the provided tag, <i>0</i> if no Integer is associated to the tag
 	 */
 	public Integer integer( String tag ){ try{ return (Integer)get(tag); }catch(Exception e){ return null; } } 
 	
 	/**
-	 * Gets the boolean value associated to the provided tag
+	 * Gets the integer associated to the provided tag
 	 * @param tag Tag to analyze
-	 * @return Boolean value associated to the provided tag, <i>false</i> if no boolean value is associated to the tag
+	 * @param  ifNoFound Value to return if the tag does not have associated an int
+	 * @return int associated to the provided tag, <i>0</i> if no int is associated to the tag
+	 */
+	public int integer( String tag, int ifNoFound ){
+		Integer v = integer(tag);
+		return v==null?ifNoFound:v; 
+	} 
+	
+	/**
+	 * Gets the Boolean value associated to the provided tag
+	 * @param tag Tag to analyze
+	 * @return Boolean value associated to the provided tag, <i>false</i> if no Boolean value is associated to the tag
 	 */
 	public Boolean bool( String tag ){ try{ return (Boolean)get(tag); }catch(Exception e){ return null; } }
+
+	/**
+	 * Gets the boolean value associated to the provided tag
+	 * @param tag Tag to analyze
+	 * @param  ifNoFound Value to return if the tag does not have associated a boolean
+	 * @return boolean value associated to the provided tag, <i>false</i> if no boolean value is associated to the tag
+	 */
+	public boolean bool( String tag, boolean ifNoFound ){
+		Boolean v = bool(tag);
+		return v==null?ifNoFound:v; 
+	}
 
 	/**
 	 * Gets the byte array associated to the provided tag
