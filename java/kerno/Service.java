@@ -48,83 +48,83 @@ import java.util.HashMap;
  *
  */
 public class Service{
-    /**
-     * Collection of casting operations  
-     */
-    protected static HashMap<Class<?>, HashMap<Object,Object>> pool = new HashMap<Class<?>, HashMap<Object,Object>>();
+	/**
+	 * Collection of casting operations  
+	 */
+	protected static HashMap<Class<?>, HashMap<Object,Object>> pool = new HashMap<Class<?>, HashMap<Object,Object>>();
 
-    /**
-     * Associates a service <i>service</i> of type <i>target</i> to object <i>caller</i> 
-     * @param caller Object that will use the service
-     * @param target Service type
-     * @param service Service
-     */
-    public static void set( Object caller, Class<?> target, Object service ){
-	HashMap<Object, Object> map = pool.get(target);
-	if( map == null ){
-	    map = new HashMap<Object, Object>();
-	    pool.put(target, map);
+	/**
+	 * Associates a service <i>service</i> of type <i>target</i> to object <i>caller</i> 
+	 * @param caller Object that will use the service
+	 * @param target Service type
+	 * @param service Service
+	 */
+	public static void set( Object caller, Class<?> target, Object service ){
+		HashMap<Object, Object> map = pool.get(target);
+		if( map == null ){
+			map = new HashMap<Object, Object>();
+			pool.put(target, map);
+		}
+		map.put(caller, service);
+		Class<?> cl = target.getSuperclass(); 
+		if( cl != null && cl!=Object.class ) set(caller,cl, service);
+		Class<?>[] superTypes = target.getInterfaces();
+		for( Class<?> c:superTypes ) set(caller, c, service );
 	}
-	map.put(caller, service);
-	Class<?> cl = target.getSuperclass(); 
-	if( cl != null && cl!=Object.class ) set(caller,cl, service);
-	Class<?>[] superTypes = target.getInterfaces();
-	for( Class<?> c:superTypes ) set(caller, c, service );
-    }
 	
-    /**
-     * Gets the service for object <i>obj</i> of service type <i>target</i>  
-     * @param obj Object requiring the service
-     * @param target  Type of service
-     * @return Service of type <i>target</i> for object <i>obj</i>, 
-     * <i>null</i> if no service is registered.
-     */
-    public static Object get( Object obj, Class<?> target ){
-	HashMap<Object, Object> set = pool.get(target);
-	if( set != null ){
-	    Object cast = set.get(obj); 
-	    if( cast != null ) return cast; 
-	    else return get( obj.getClass(), set );
+	/**
+	 * Gets the service for object <i>obj</i> of service type <i>target</i>  
+	 * @param obj Object requiring the service
+	 * @param target  Type of service
+	 * @return Service of type <i>target</i> for object <i>obj</i>, 
+	 * <i>null</i> if no service is registered.
+	 */
+	public static Object get( Object obj, Class<?> target ){
+		HashMap<Object, Object> set = pool.get(target);
+		if( set != null ){
+			Object cast = set.get(obj); 
+			if( cast != null ) return cast; 
+			else return get( obj.getClass(), set );
+		}
+		return null;
 	}
-	return null;
-    }
 
-    /**
-     * Gets the service of type <i>target</i> for class <i>src</i>  
-     * @param src Class requesting the service
-     * @param target Collection of specific services
-     * @return Service of type <i>target</i> for class <i>src</i>, 
-     * <i>null</i> if no service is registered.
-     */
-    protected static Object get( Class<?> src, HashMap<Object, Object> target ){
-	if( src==null ) return null; 
-	Object srv = target.get(src);
-	if( srv != null ) return srv;
-	srv = get( src.getSuperclass(), target);
-	if( srv != null ) return srv;
-	Class<?>[] superTypes = src.getInterfaces();
-	for( Class<?> c:superTypes ){
-	    srv = get(c, target );
-	    if( srv != null ) return srv;
+	/**
+	 * Gets the service of type <i>target</i> for class <i>src</i>  
+	 * @param src Class requesting the service
+	 * @param target Collection of specific services
+	 * @return Service of type <i>target</i> for class <i>src</i>, 
+	 * <i>null</i> if no service is registered.
+	 */
+	protected static Object get( Class<?> src, HashMap<Object, Object> target ){
+		if( src==null ) return null; 
+		Object srv = target.get(src);
+		if( srv != null ) return srv;
+		srv = get( src.getSuperclass(), target);
+		if( srv != null ) return srv;
+		Class<?>[] superTypes = src.getInterfaces();
+		for( Class<?> c:superTypes ){
+			srv = get(c, target );
+			if( srv != null ) return srv;
+		}
+		return null;
 	}
-	return null;
-    }
 	
-    /** 
-     * Determines if the object is from primitive class
-     * @param obj Object to test
-     * @return <i>true</i> if the object is from a primitive class, <i>false</i> otherwise
-     */
-    public static boolean primitive(Object obj) {
-	return (obj == null || obj instanceof Number || obj instanceof Boolean || 
-		obj instanceof Character || obj instanceof String || 
-		obj.getClass().isPrimitive());
-    }
+	/** 
+	 * Determines if the object is from primitive class
+	 * @param obj Object to test
+	 * @return <i>true</i> if the object is from a primitive class, <i>false</i> otherwise
+	 */
+	public static boolean primitive(Object obj) {
+		return (obj == null || obj instanceof Number || obj instanceof Boolean || 
+				obj instanceof Character || obj instanceof String || 
+				obj.getClass().isPrimitive());
+	}
 
-    /** 
-     * Determines if the object is an array
-     * @param obj Object to test
-     * @return <i>true</i> if the object is an array, <i>false</i> otherwise
-     */		
-    public static boolean array(Object obj) { return obj.getClass().isArray(); }
+	/** 
+	 * Determines if the object is an array
+	 * @param obj Object to test
+	 * @return <i>true</i> if the object is an array, <i>false</i> otherwise
+	 */		
+	public static boolean array(Object obj) { return obj.getClass().isArray(); }
 }

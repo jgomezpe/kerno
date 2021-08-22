@@ -45,15 +45,15 @@ package speco.object;
  *
  */
 public interface Identifiable {
-    /**
-     * Identification of the object
-     * @return String with the identification of the object
-     */
-    String id();
+	/**
+	 * Identification of the object
+	 * @return String with the identification of the object
+	 */
+	String id();
     
-    /**
-     * Sets the identification of the object
-     * @param id New identification tag of the object 
-     */
-    void id(String id);
+	/**
+	 * Sets the identification of the object
+	 * @param id New identification tag of the object 
+	 */
+	void id(String id);
 }

@@ -48,51 +48,51 @@ import speco.jxon.JXON;
  */
 
 public interface Configurable {
-    /**
-     * JXON Tag indicating the class type of a Configurable object
-     */
-    public static final String CLASS = "class"; 
+	/**
+	 * JXON Tag indicating the class type of a Configurable object
+	 */
+	public static final String CLASS = "class"; 
     
-    /**
-     * Configures the object with the information provided by the JXON object
-     * @param json COnfiguration information
-     */
-    void config(JXON json);
+	/**
+	 * Configures the object with the information provided by the JXON object
+	 * @param json COnfiguration information
+	 */
+	void config(JXON json);
     
-    /**
-     * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-     * @param loader Classloader used for instantiates the object
-     * @param jxon Configuration information
-     * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
-     */
-    static Configurable load(ClassLoader loader, JXON jxon) {
-	Configurable obj = null;
-	Class<?> aClass;
-	try {
-	    String name = jxon.string(CLASS);
-	    aClass = loader.loadClass(name);
-	    obj = (Configurable)aClass.newInstance();
-	    obj.config(jxon);
-	} catch (Exception e) {}
-	return obj;
-    }
+	/**
+	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
+	 * @param loader Classloader used for instantiates the object
+	 * @param jxon Configuration information
+	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
+	 */
+	static Configurable load(ClassLoader loader, JXON jxon) {
+		Configurable obj = null;
+		Class<?> aClass;
+		try {
+			String name = jxon.string(CLASS);
+			aClass = loader.loadClass(name);
+			obj = (Configurable)aClass.newInstance();
+			obj.config(jxon);
+		} catch (Exception e) {}
+		return obj;
+	}
 
-    /**
-     * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-     * @param jxon Configuration information
-     * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
-     */
-    static Configurable load(JXON jxon) { return load(Configurable.class.getClassLoader(), jxon); }
+	/**
+	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
+	 * @param jxon Configuration information
+	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
+	 */
+	static Configurable load(JXON jxon) { return load(Configurable.class.getClassLoader(), jxon); }
 
-    /**
-     * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JXON configuration information
-     * @param obj Object to be configured.
-     * @param jxon Configuration information
-     * @return A configured version of the <i>obj</i>, a new instance if <i>null</i> was provided as <i>obj</i> parameter
-     */
-    static Configurable load(Configurable obj, JXON jxon) {
-	if( obj != null ) obj.config(jxon);
-	else obj = load(Configurable.class.getClassLoader(), jxon); 
-	return obj;
-    }    
+	/**
+	 * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JXON configuration information
+	 * @param obj Object to be configured.
+	 * @param jxon Configuration information
+	 * @return A configured version of the <i>obj</i>, a new instance if <i>null</i> was provided as <i>obj</i> parameter
+	 */
+	static Configurable load(Configurable obj, JXON jxon) {
+		if( obj != null ) obj.config(jxon);
+		else obj = load(Configurable.class.getClassLoader(), jxon); 
+		return obj;
+	}    
 }

@@ -45,9 +45,9 @@ package kopii;
  *
  */
 public interface Copyable {	
-    /**
-     * Creates a clone of a given object
-     * @return A clone of the object
-     */
-    Copyable copy();	
+	/**
+	 * Creates a clone of a given object
+	 * @return A clone of the object
+	 */
+	Copyable copy();	
 }

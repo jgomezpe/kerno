@@ -47,51 +47,51 @@ import kerno.Service;
  *
  */
 public interface Comparator<T>{
-    /**
-     * Determines if object <i>one</i> is equal to object <i>two</i>
-     * @param one The first object to compare
-     * @param two The second object to compare
-     * @return (one==two)
-     */
-    public boolean eq(T one, T two);
+	/**
+	 * Determines if object <i>one</i> is equal to object <i>two</i>
+	 * @param one The first object to compare
+	 * @param two The second object to compare
+	 * @return (one==two)
+	 */
+	public boolean eq(T one, T two);
     
-    /**
-     * Determines if object <i>one</i> is not equal to object <i>two</i>
-     * @param one The first object to compare
-     * @param two The second object to compare
-     * @return (one!=two)
-     */
-    default boolean ne(T one, T two) { return !eq(one,two); }
+	/**
+	 * Determines if object <i>one</i> is not equal to object <i>two</i>
+	 * @param one The first object to compare
+	 * @param two The second object to compare
+	 * @return (one!=two)
+	 */
+	default boolean ne(T one, T two) { return !eq(one,two); }
     
-    /**
-     * Determines if object <i>one</i> is equal to object <i>two</i>
-     * @param one The first object to compare
-     * @param two The second object to compare
-     * @return (one==two)
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    static boolean EQ(Object one, Object two) {
-	if(one==two) return true;
-	if(one==null || two==null) return false;
-	Comparator service = (Comparator)Service.get(one, Comparator.class);
-	if(service!=null) return service.eq(one,two);
-	return false;
-    }
+	/**
+	 * Determines if object <i>one</i> is equal to object <i>two</i>
+	 * @param one The first object to compare
+	 * @param two The second object to compare
+	 * @return (one==two)
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	static boolean EQ(Object one, Object two) {
+		if(one==two) return true;
+		if(one==null || two==null) return false;
+		Comparator service = (Comparator)Service.get(one, Comparator.class);
+		if(service!=null) return service.eq(one,two);
+		return false;
+	}
     
-    /**
-     * Determines if object <i>one</i> is not equal to object <i>two</i>
-     * @param one The first object to compare
-     * @param two The second object to compare
-     * @return (one!=two)
-     */
-    static boolean NE(Object one, Object two) { return !EQ(one,two); }
+	/**
+	 * Determines if object <i>one</i> is not equal to object <i>two</i>
+	 * @param one The first object to compare
+	 * @param two The second object to compare
+	 * @return (one!=two)
+	 */
+	static boolean NE(Object one, Object two) { return !EQ(one,two); }
     
-    /**
-     * Sets the comparator used by object/class <i>owner</i>
-     * @param owner Object/class that will use the provided Comparator
-     * @param comparator Comparator used by object/class <i>owner</i>
-     */
-    static void set(Object owner, Comparator<?> comparator) {
-	Service.set(owner, Comparator.class, comparator);
-    }
+	/**
+	 * Sets the comparator used by object/class <i>owner</i>
+	 * @param owner Object/class that will use the provided Comparator
+	 * @param comparator Comparator used by object/class <i>owner</i>
+	 */
+	static void set(Object owner, Comparator<?> comparator) {
+		Service.set(owner, Comparator.class, comparator);
+	}
 }

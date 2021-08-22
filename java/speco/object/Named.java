@@ -45,34 +45,33 @@ package speco.object;
  *
  */
 public class Named implements Identifiable{
-    /**
-     * Identification tag of the Object
-     */
-    protected String id;
+	/**
+	 * Identification tag of the Object
+	 */
+	protected String id;
     
-    /**
-     * Creates an object with null identification tag
-     */
-    public Named() { id=null; }
+	/**
+	 * Creates an object with null identification tag
+	 */
+	public Named() { id=null; }
     
-    /**
-     * Creates an object with the provided tag
-     * @param id Identification tag of the object
-     */
-    public Named(String id) { this.id = id; }
+	/**
+	 * Creates an object with the provided tag
+	 * @param id Identification tag of the object
+	 */
+	public Named(String id) { this.id = id; }
 
-    /**
-     * Identification of the object
-     * @return String with the identification of the object
-     */
-    @Override
-    public String id() { return id; }
+	/**
+	 * Identification of the object
+	 * @return String with the identification of the object
+	 */
+	@Override
+	public String id() { return id; }
 
-    /**
-     * Sets the identification of the object
-     * @param id New identification tag of the object 
-     */
-    @Override
-    public void id(String id) { this.id = id; }
-
+	/**
+	 * Sets the identification of the object
+	 * @param id New identification tag of the object 
+	 */
+	@Override
+	public void id(String id) { this.id = id; }
 }

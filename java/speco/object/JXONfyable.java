@@ -47,9 +47,9 @@ import speco.jxon.JXON;
  *
  */
 public interface JXONfyable {
-    /**
-     * Creates a JXON version of itself
-     * @return A JXON version of itself
-     */
-    JXON jxon();
+	/**
+	 * Creates a JXON version of itself
+	 * @return A JXON version of itself
+	 */
+	JXON jxon();
 }

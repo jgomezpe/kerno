@@ -47,43 +47,41 @@ import kerno.Service;
  *
  */
 public interface Order<T> extends Comparator<T>{
-    /**
-     * Determines if one elements is less, equal or greater than other.
-     * @param one First object to be compared
-     * @param two Second object to be compared
-     * @return A value less than 0 indicates that <i>one</i> is less than <i>two</i>, a value equal to 0 indicates
-     * that <i>one</i> is equal to <i>two</i> and a value greater than 0 indicates that <i>one</i> is greater than <i>two</i>
-     */
-    int compare(T one, T two);    
+	/**
+	 * Determines if one elements is less, equal or greater than other.
+	 * @param one First object to be compared
+	 * @param two Second object to be compared
+	 * @return A value less than 0 indicates that <i>one</i> is less than <i>two</i>, a value equal to 0 indicates
+	 * that <i>one</i> is equal to <i>two</i> and a value greater than 0 indicates that <i>one</i> is greater than <i>two</i>
+	 */
+	int compare(T one, T two);    
     
-    /**
-     * Determines if object <i>one</i> is equal to object <i>two</i>
-     * @param one The first object to compare
-     * @param two The second object to compare
-     * @return (one==two)
-     */
-    default boolean eq(T one, T two){ return compare(one,two)==0; }    
+	/**
+	 * Determines if object <i>one</i> is equal to object <i>two</i>
+	 * @param one The first object to compare
+	 * @param two The second object to compare
+	 * @return (one==two)
+	 */
+	default boolean eq(T one, T two){ return compare(one,two)==0; }    
     
-    /**
-     * Determines if one elements is less, equal or greater than other.
-     * @param one First object to be compared
-     * @param two Second object to be compared
-     * @return A value less than 0 indicates that <i>one</i> is less than <i>two</i>, a value equal to 0 indicates
-     * that <i>one</i> is equal to <i>two</i> and a value greater than 0 indicates that <i>one</i> is greater than <i>two</i>
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    static int COMPARE(Object one, Object two) { 
-	Order service = (Order)Service.get(one, Order.class);
-	if(service!=null) return service.compare(one,two);
-	return 1; 
-    }
+	/**
+	 * Determines if one elements is less, equal or greater than other.
+	 * @param one First object to be compared
+	 * @param two Second object to be compared
+	 * @return A value less than 0 indicates that <i>one</i> is less than <i>two</i>, a value equal to 0 indicates
+	 * that <i>one</i> is equal to <i>two</i> and a value greater than 0 indicates that <i>one</i> is greater than <i>two</i>
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	static int COMPARE(Object one, Object two) { 
+		Order service = (Order)Service.get(one, Order.class);
+		if(service!=null) return service.compare(one,two);
+		return 1; 
+	}
     
-    /**
-     * Sets the order used by object/class <i>owner</i>
-     * @param owner Object/class that will use the provided Order
-     * @param order Order used by object/class <i>owner</i>
-     */
-    static void set(Object owner, Order<?> order) {
-	Service.set(owner, Order.class, order);
-    }
+	/**
+	 * Sets the order used by object/class <i>owner</i>
+	 * @param owner Object/class that will use the provided Order
+	 * @param order Order used by object/class <i>owner</i>
+	 */
+	static void set(Object owner, Order<?> order) { Service.set(owner, Order.class, order); }
 }

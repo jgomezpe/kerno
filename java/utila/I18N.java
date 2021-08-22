@@ -48,43 +48,44 @@ import speco.jxon.JXON;
  */
 
 public class I18N {
-    /**
-     * Dictionary for translating tags to the target language
-     */
-    protected static JXON dictionary = new JXON();
-    /**
-     * Tags delimiter character
-     */
-    protected static final char c = '·';
+	/**
+	 * Dictionary for translating tags to the target language
+	 */
+	protected static JXON dictionary = new JXON();
+	
+	/**
+	 * Tags delimiter character
+	 */
+	protected static final char c = '·';
     
-    /**
-     * Clears the internationalization dictionary
-     */
-    public static void clear() { dictionary.clear(); }
+	/**
+	 * Clears the internationalization dictionary
+	 */
+	public static void clear() { dictionary.clear(); }
     
-    /**
-     * Sets a language value for the given tag
-     * @param tag Tag
-     * @param text Text in the target language associated to the given tag
-     */
-    public static void set( String tag, String text ) { dictionary.set(tag,text); }
+	/**
+	 * Sets a language value for the given tag
+	 * @param tag Tag
+	 * @param text Text in the target language associated to the given tag
+	 */
+	public static void set( String tag, String text ) { dictionary.set(tag,text); }
     
-    /**
-     * Replaces all tags in the given text using the I18N dictionary
-     * @param text Text to processes
-     * @return The provided text with all tags being replaced with their associated language texts
-     */
-    public static String process( String text ) { return Template.get(text, I18N.dictionary, c); }
+	/**
+	 * Replaces all tags in the given text using the I18N dictionary
+	 * @param text Text to processes
+	 * @return The provided text with all tags being replaced with their associated language texts
+	 */
+	public static String process( String text ) { return Template.get(text, I18N.dictionary, c); }
     
-    /**
-     * Sets the dictionary for translating tags to the target language
-     * @param jxon Dictionary for translating tags to the target language
-     */
-    public static void set(JXON jxon) {
-	clear();
-	for(String key:jxon.keys()) {
-	    String value = jxon.string(key);
-	    if(value!=null) dictionary.set(key, value);
+	/**
+	 * Sets the dictionary for translating tags to the target language
+	 * @param jxon Dictionary for translating tags to the target language
+	 */
+	public static void set(JXON jxon) {
+		clear();
+		for(String key:jxon.keys()) {
+			String value = jxon.string(key);
+			if(value!=null) dictionary.set(key, value);
+		}
 	}
-    }
 }
