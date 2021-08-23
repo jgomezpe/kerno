@@ -10,7 +10,7 @@ Java basic components for the numtseng infrastructure.
 &nbsp;Source code: <A HREF="https://github.com/jgomezpe/kerno/">https://github.com/jgomezpe/kerno/</A>
 
 
-&nbsp;API documentation: <A HREF="https://numtseng.com/api/kerno/">https://numtseng.com/api/kerno/</A>
+&nbsp;API documentation: <A HREF="https://numtseng.com/api/java/kerno/">https://numtseng.com/api/java/kerno/</A>
 
 &nbsp;All rights reserved.
 
