@@ -296,8 +296,8 @@ public class JXON implements Configurable, Copyable{
     }
     
     /**
-     * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JXON configuration information
-     * @param jxon Configuration information
+     * Copies from the provided JXON 
+     * @param jxon JXON from which the object will copy information
      */
     @Override
     public void config(JXON jxon){
