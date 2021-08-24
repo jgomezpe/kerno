@@ -44,9 +44,7 @@ import java.util.regex.Pattern;
 import speco.jxon.JXON;
 
 /**
- * <p>Title: Template</p>
- *
- * <p>Description: Fill a template String, replacing tags with concrete values given by a dictionary</p>
+ * <p>Fill a template String, replacing tags with concrete values given by a dictionary</p>
  *
  */
 public class Template {

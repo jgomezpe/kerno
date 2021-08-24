@@ -41,11 +41,8 @@ package kerno;
 import java.util.HashMap;
 
 /**
- * <p>Title: Service</p>
- *
- * <p>Description: A service provider for objects and classes. 
+ * <p>A service provider for objects and classes. 
  * It traverses the class hierarchy as needed.</p>
- *
  */
 public class Service{
 	/**

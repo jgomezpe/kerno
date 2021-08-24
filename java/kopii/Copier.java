@@ -43,9 +43,7 @@ import java.util.HashMap;
 import kerno.Service;
 
 /**
- * <p>Title: Copier</p>
- *
- * <p>Description: A cloning method</p>
+ * <p>A cloning method</p>
  *
  */
 public class Copier {

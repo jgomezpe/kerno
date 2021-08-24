@@ -39,9 +39,7 @@
 package speco.object;
 
 /**
- * <p>Title: Named</p>
- *
- * <p>Description: Concrete object with an identification tag</p>
+ * <p>Concrete object with an identification tag</p>
  *
  */
 public class Named implements Identifiable{

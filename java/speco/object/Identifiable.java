@@ -39,9 +39,7 @@
 package speco.object;
 
 /**
- * <p>Title: Identifiable</p>
- *
- * <p>Description: An object with an identification tag</p>
+ * <p>An object with an identification tag</p>
  *
  */
 public interface Identifiable {

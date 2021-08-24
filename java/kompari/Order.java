@@ -41,9 +41,7 @@ package kompari;
 import kerno.Service;
 
 /**
- * <p>Title: Order</p>
- *
- * <p>Description: An order for objects</p>
+ * <p>An order for objects</p>
  * @param <T> Type of elements to order
  *
  */

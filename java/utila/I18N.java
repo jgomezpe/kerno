@@ -41,9 +41,7 @@ package utila;
 import speco.jxon.JXON;
 
 /**
- * <p>Title: I18N</p>
- *
- * <p>Description: Internationalization utilities</p>
+ * <p>Internationalization utilities</p>
  *
  */
 

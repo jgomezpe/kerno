@@ -39,9 +39,7 @@
 package kopii;
 
 /**
- * <p>Title: Copyable</p>
- *
- * <p>Description: An object that can produce clones</p>
+ * <p>An object that can produce clones</p>
  *
  */
 public interface Copyable {	

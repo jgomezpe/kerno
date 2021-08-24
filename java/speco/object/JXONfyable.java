@@ -41,9 +41,7 @@ package speco.object;
 import speco.jxon.JXON;
 
 /**
- * <p>Title: JXONfyable</p>
- *
- * <p>Description: Object that can provided a JXON version of itself</p>
+ * <p>Object that can provided a JXON version of itself</p>
  *
  */
 public interface JXONfyable {

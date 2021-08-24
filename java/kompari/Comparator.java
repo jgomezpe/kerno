@@ -41,9 +41,7 @@ package kompari;
 import kerno.Service;
 
 /**
- * <p>Title: Comparator</p>
- *
- * <p>Description: Compares two objects to determine if they are equal or not</p>
+ * <p>Compares two objects to determine if they are equal or not</p>
  * @param <T> Type of elements to compare
  *
  */

@@ -45,9 +45,7 @@ import kopii.Copyable;
 import speco.object.Configurable;
 
 /**
- * <p>Title: JXON</p>
- *
- * <p>Description: A JSON object that can directly store byte arrays</p>
+ * <p>A JSON object that can directly store byte arrays</p>
  *
  */
 

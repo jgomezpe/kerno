@@ -41,9 +41,7 @@ package speco.object;
 import speco.jxon.JXON;
 
 /**
- * <p>Title: Configurable</p>
- *
- * <p>Description: Object that is configurable by using a JXON object</p>
+ * <p>Object that is configurable by using a JXON object</p>
  *
  */
 
@@ -55,9 +53,9 @@ public interface Configurable {
     
 	/**
 	 * Configures the object with the information provided by the JXON object
-	 * @param json COnfiguration information
+	 * @param jxon Configuration information
 	 */
-	void config(JXON json);
+	void config(JXON jxon);
     
 	/**
 	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
