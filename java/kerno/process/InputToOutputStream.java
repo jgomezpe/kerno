@@ -36,62 +36,62 @@
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-package speco.object;
+package kerno.process;
 
-import kerno.reflection.Reflection;
-import speco.jxon.JXON;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
- * <p>Object that is configurable by using a JXON object</p>
+ * <p>Associates an InputStream to the OutputStream of a ProcessRunner. </p>
  *
  */
+public class InputToOutputStream implements Runnable{
+	protected InputStream is;
+    
+	protected ProcessRunner process;
 
-public interface Configurable {
+	protected Thread thread;
+
+	protected OutputStream os = null;
+
 	/**
-	 * JXON Tag indicating the class type of a Configurable object
+	 * Associates an InputStream to the OutputStream of a ProcessRunner.
+	 * @param process Process Runner
+	 * @param is Input Stream 
+	 * @param os Output Stream
 	 */
-	public static final String CLASS = "class"; 
+	public InputToOutputStream(ProcessRunner process, InputStream is, OutputStream os) {
+		this.is = is;
+		this.os = os;
+		this.process = process;
+		start();
+	}
     
 	/**
-	 * Configures the object with the information provided by the JXON object
-	 * @param jxon Configuration information
+	 * Starts the Input/OutputStream processing
 	 */
-	void config(JXON jxon);
-    
-	/**
-	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-	 * @param loader Classloader used for instantiates the object
-	 * @param jxon Configuration information
-	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
-	 */
-	static Configurable load(ClassLoader loader, JXON jxon) {
-		Configurable obj = null;
-		Class<?> aClass;
-		try {
-			String name = jxon.string(CLASS);
-			aClass = loader.loadClass(name);
-			obj = (Configurable)aClass.newInstance();
-			obj.config(jxon);
-		} catch (Exception e) {}
-		return obj;
+	public void start () {
+		thread = new Thread(this);
+		thread.start ();
 	}
 
 	/**
-	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-	 * @param jxon Configuration information
-	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
+	 * Process the Input/OutputStream used by the External Process
 	 */
-	static Configurable load(JXON jxon) { return load(Reflection.loader(), jxon); }
-
-	/**
-	 * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JXON configuration information
-	 * @param obj Object to be configured.
-	 * @param jxon Configuration information
-	 * @return A configured version of the <i>obj</i>, a new instance if <i>null</i> was provided as <i>obj</i> parameter
-	 */
-	static Configurable load(Configurable obj, JXON jxon) {
-		if( obj != null ) obj.config(jxon);
-		else obj = load(Reflection.loader(), jxon); 
-		return obj;
-	}    
+	public void run () {
+		try {
+			if( is!=null) {
+				while( process.isRunning() ) {
+					if( os != null ) {
+						boolean flag = false;
+						while(is.available()>0) {
+							os.write(is.read());
+							flag = true;
+						}
+						if(flag) os.flush();			
+					}else while(is.read()!=-1);
+				}
+			}
+		}catch (Exception ex) { ex.printStackTrace (); }
+	}
 }

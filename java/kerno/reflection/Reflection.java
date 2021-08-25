@@ -36,62 +36,45 @@
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-package speco.object;
-
-import kerno.reflection.Reflection;
-import speco.jxon.JXON;
+package kerno.reflection;
 
 /**
- * <p>Object that is configurable by using a JXON object</p>
- *
+ * <p>Reflection class loader methods.</p>
  */
-
-public interface Configurable {
+public class Reflection {
+	protected static MultiClassLoader loader = new MultiClassLoader();
+	
+	static { loader.addLoader(Reflection.class.getClassLoader()); }
+	
 	/**
-	 * JXON Tag indicating the class type of a Configurable object
+	 * Adds a jar to the class loader
+	 * @param file Jar to add 
+	 * @throws Exception If I/O occurs  
 	 */
-	public static final String CLASS = "class"; 
-    
-	/**
-	 * Configures the object with the information provided by the JXON object
-	 * @param jxon Configuration information
-	 */
-	void config(JXON jxon);
-    
-	/**
-	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-	 * @param loader Classloader used for instantiates the object
-	 * @param jxon Configuration information
-	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
-	 */
-	static Configurable load(ClassLoader loader, JXON jxon) {
-		Configurable obj = null;
-		Class<?> aClass;
-		try {
-			String name = jxon.string(CLASS);
-			aClass = loader.loadClass(name);
-			obj = (Configurable)aClass.newInstance();
-			obj.config(jxon);
-		} catch (Exception e) {}
-		return obj;
+	public static void addJar(String file) throws Exception{
+		loader.addLoader(new MemoryClassLoader(file, true));
 	}
 
 	/**
-	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-	 * @param jxon Configuration information
-	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
+	 * Adds a zip to the class loader
+	 * @param file Zip to add 
+	 * @throws Exception If I/O occurs  
 	 */
-	static Configurable load(JXON jxon) { return load(Reflection.loader(), jxon); }
-
+	public static void addZip(String file) throws Exception{
+		loader.addLoader(new MemoryClassLoader(file, false));
+	}
+	
 	/**
-	 * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JXON configuration information
-	 * @param obj Object to be configured.
-	 * @param jxon Configuration information
-	 * @return A configured version of the <i>obj</i>, a new instance if <i>null</i> was provided as <i>obj</i> parameter
+	 * Adds a class loader
+	 * @param cl Class loader to add 
 	 */
-	static Configurable load(Configurable obj, JXON jxon) {
-		if( obj != null ) obj.config(jxon);
-		else obj = load(Reflection.loader(), jxon); 
-		return obj;
-	}    
+	public static void addClassLoader(ClassLoader cl) {
+		loader.addLoader(cl);
+	}
+	
+	/**
+	 * Gets the class loader used by the Numtseng infra-structure
+	 * @return Class loader used by the Numtseng infra-structure
+	 */
+	public static ClassLoader loader() { return loader; }
 }

@@ -36,62 +36,58 @@
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-package speco.object;
+package speco.stream;
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 
-import kerno.reflection.Reflection;
-import speco.jxon.JXON;
+import javax.imageio.ImageIO;
 
 /**
- * <p>Object that is configurable by using a JXON object</p>
+ * <p>Resoures utilities</p>
  *
  */
-
-public interface Configurable {
+public class Resource {
 	/**
-	 * JXON Tag indicating the class type of a Configurable object
+	 * Gets an InputStream searching for it as URL, as a file in the OS, or as resource in the Numtseng class loader
+	 * @param file File identification (name)
+	 * @return InputStream from file
+	 * @throws IOException If I/O occurs
 	 */
-	public static final String CLASS = "class"; 
-    
-	/**
-	 * Configures the object with the information provided by the JXON object
-	 * @param jxon Configuration information
-	 */
-	void config(JXON jxon);
-    
-	/**
-	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-	 * @param loader Classloader used for instantiates the object
-	 * @param jxon Configuration information
-	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
-	 */
-	static Configurable load(ClassLoader loader, JXON jxon) {
-		Configurable obj = null;
-		Class<?> aClass;
-		try {
-			String name = jxon.string(CLASS);
-			aClass = loader.loadClass(name);
-			obj = (Configurable)aClass.newInstance();
-			obj.config(jxon);
-		} catch (Exception e) {}
-		return obj;
+	public static InputStream stream(String file)  throws IOException{
+		return InputStreamLoader.get(file);
 	}
+	
+	/**
+	 * Gets an image from an input stream
+	 * @param is InputStream
+	 * @return Image represented by the InputStream
+	 * @throws IOException If I/O occurs
+	 */
+	public static Image image(InputStream is ) throws IOException{ return ImageIO.read(is); }
 
 	/**
-	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-	 * @param jxon Configuration information
-	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
+	 * Gets an image searching for it as URL, as a file in the OS, or as resource in the Numtseng class loader
+	 * @param file File identification (name)
+	 * @return Image from file
+	 * @throws IOException If I/O occurs
 	 */
-	static Configurable load(JXON jxon) { return load(Reflection.loader(), jxon); }
-
+	public static Image image(String file) throws IOException{ return image(stream(file)); }
+	
 	/**
-	 * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JXON configuration information
-	 * @param obj Object to be configured.
-	 * @param jxon Configuration information
-	 * @return A configured version of the <i>obj</i>, a new instance if <i>null</i> was provided as <i>obj</i> parameter
+	 * Gets a plain text (String) from an input stream
+	 * @param is InputStream
+	 * @return String represented by the InputStream
+	 * @throws IOException If I/O occurs
 	 */
-	static Configurable load(Configurable obj, JXON jxon) {
-		if( obj != null ) obj.config(jxon);
-		else obj = load(Reflection.loader(), jxon); 
-		return obj;
-	}    
+	public static String txt( InputStream is ) throws IOException{ return new String(StreamUtil.toByteArray(is)); }
+	
+	/**
+	 * Gets a plain text file (String) searching for it as URL, as a file in the OS, or as resource in the Numtseng class loader
+	 * @param file File identification (name)
+	 * @return String from file
+	 * @throws IOException If I/O occurs
+	 */
+	public static String txt( String file ) throws IOException{ return txt(stream(file)); }	
+	
 }
