@@ -55,6 +55,8 @@ public class InputToOutputStream implements Runnable, StoppableProcess, Checkeab
 	protected OutputStream os = null;
 	
 	protected boolean running = false;
+	
+	protected OutputStream replacingOS = null;
 
 	/**
 	 * Associates an InputStream to the OutputStream of a ProcessRunner.
@@ -96,11 +98,17 @@ public class InputToOutputStream implements Runnable, StoppableProcess, Checkeab
 		try {
 			while( isRunning() ) {
 				boolean flag=false;
-				while(is.available()>0 && running) {
+				while(is.available()>0 && running && replacingOS==null) {
 					os.write(is.read());
 					flag = true;
 				}
-				if(flag) os.flush();	
+				if(flag) {
+				    os.flush();
+				    if(replacingOS!=null) {
+				    	os=replacingOS;
+				    	replacingOS=null;
+				    }
+				}
 			}
 		}catch (Exception ex) {}
 		running=false;
@@ -116,5 +124,11 @@ public class InputToOutputStream implements Runnable, StoppableProcess, Checkeab
      * @return <i>true</i> if the process is running, <i>false</i> otherwise
      */
     public boolean isRunning() { return process.isRunning() && running; }
+    
+    /**
+     * Replaces the associated output stream
+     * @param os New output stream
+     */
+    public void replace(OutputStream os) { replacingOS = os; }
 
 }

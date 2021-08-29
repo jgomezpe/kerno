@@ -77,7 +77,7 @@ public class ProcessRunner implements StoppableProcess, CheckeableProcess{
 	public void input( InputStream is ) {
 		input.add(is);
 		while(process.getOutputStream() == null) {
-			try { Thread.sleep(50); } catch (InterruptedException e) { }
+			try { Thread.sleep(10); } catch (InterruptedException e) { }
 		}
 		if( i2o == null  ) i2o = new InputToOutputStream(this, input, process.getOutputStream());
 	}
@@ -97,11 +97,11 @@ public class ProcessRunner implements StoppableProcess, CheckeableProcess{
 	public void output(OutputStream os) {
 		InputStream out = output();
 		while(out==null){
-			try { Thread.sleep(50); } catch (InterruptedException e) { }
+			try { Thread.sleep(10); } catch (InterruptedException e) { }
 			out = output();
 		}
-		if(o2o!=null) o2o.end();
-		o2o = new InputToOutputStream(this, out, os);
+		if(o2o!=null) o2o.replace(os);
+		else o2o = new InputToOutputStream(this, out, os);
 	}
    
 	/**
@@ -119,11 +119,11 @@ public class ProcessRunner implements StoppableProcess, CheckeableProcess{
 	public void error(OutputStream os) {
 		InputStream out = error();
 		while(out==null){
-			try { Thread.sleep(50); } catch (InterruptedException e) { }
+			try { Thread.sleep(10); } catch (InterruptedException e) { }
 			out = error();
 		}
-		if(e2o!=null) e2o.end();
-		e2o = new InputToOutputStream(this, out, os);
+		if(e2o!=null) e2o.replace(os);
+		else e2o = new InputToOutputStream(this, out, os);
 	}
     
 	/**
