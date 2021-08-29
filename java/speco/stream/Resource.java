@@ -44,7 +44,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 /**
- * <p>Resoures utilities</p>
+ * <p>Resource utilities</p>
  *
  */
 public class Resource {

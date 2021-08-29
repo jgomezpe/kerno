@@ -39,15 +39,18 @@
 package kerno.process;
 import java.io.*;
 
+import speco.stream.InputStreamQueue;
+
 /**
  * <p>A Class for Executing External Process (commands).</p>
  */
-public class ProcessRunner{
+public class ProcessRunner implements StoppableProcess, CheckeableProcess{
 	protected Process process;
  
-	protected InputStream is = null;
-
-	protected InputToOutputStream input = null;
+	protected InputStreamQueue input = new InputStreamQueue();
+	protected InputToOutputStream i2o = null;
+	protected InputToOutputStream o2o = null;
+	protected InputToOutputStream e2o = null;
 
 	/**
 	 * Created a External Process represented by the command sent as parameter
@@ -58,13 +61,13 @@ public class ProcessRunner{
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 
-	/**
+	/**	
 	 * Created a External Process represented by the command sent as parameter
 	 * @param commandLine The external process (including arguments) to be executed
 	 */
-	public ProcessRunner( String commandLine ){
-		try { process = Runtime.getRuntime().exec(commandLine);
-		} catch (IOException e) { e.printStackTrace(); }
+	public ProcessRunner( String commandLine ){	
+		try { process = Runtime.getRuntime().exec(commandLine); } 
+		catch (IOException e) { e.printStackTrace(); }
 	}
     
 	/**
@@ -72,8 +75,11 @@ public class ProcessRunner{
 	 * @param is Input stream
 	 */
 	public void input( InputStream is ) {
-		if( input != null ) input.is = is;
-		else input = new InputToOutputStream(this, is, process.getOutputStream());
+		input.add(is);
+		while(process.getOutputStream() == null) {
+			try { Thread.sleep(50); } catch (InterruptedException e) { }
+		}
+		if( i2o == null  ) i2o = new InputToOutputStream(this, input, process.getOutputStream());
 	}
 
 	/**
@@ -90,9 +96,14 @@ public class ProcessRunner{
 	 */
 	public void output(OutputStream os) {
 		InputStream out = output();
-		if(out!=null)  new InputToOutputStream(this, out, os);
+		while(out==null){
+			try { Thread.sleep(50); } catch (InterruptedException e) { }
+			out = output();
+		}
+		if(o2o!=null) o2o.end();
+		o2o = new InputToOutputStream(this, out, os);
 	}
-
+   
 	/**
 	 * Gets the process error stream as an InputStream
 	 * @return Process error stream as an InputStream
@@ -107,7 +118,12 @@ public class ProcessRunner{
 	 */
 	public void error(OutputStream os) {
 		InputStream out = error();
-		if(out!=null)  new InputToOutputStream(this, out, os);
+		while(out==null){
+			try { Thread.sleep(50); } catch (InterruptedException e) { }
+			out = error();
+		}
+		if(e2o!=null) e2o.end();
+		e2o = new InputToOutputStream(this, out, os);
 	}
     
 	/**

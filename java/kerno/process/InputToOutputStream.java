@@ -45,7 +45,7 @@ import java.io.OutputStream;
  * <p>Associates an InputStream to the OutputStream of a ProcessRunner. </p>
  *
  */
-public class InputToOutputStream implements Runnable{
+public class InputToOutputStream implements Runnable, StoppableProcess, CheckeableProcess{
 	protected InputStream is;
     
 	protected ProcessRunner process;
@@ -53,6 +53,8 @@ public class InputToOutputStream implements Runnable{
 	protected Thread thread;
 
 	protected OutputStream os = null;
+	
+	protected boolean running = false;
 
 	/**
 	 * Associates an InputStream to the OutputStream of a ProcessRunner.
@@ -71,6 +73,7 @@ public class InputToOutputStream implements Runnable{
 	 * Starts the Input/OutputStream processing
 	 */
 	public void start () {
+		running = true;
 		thread = new Thread(this);
 		thread.start ();
 	}
@@ -79,19 +82,39 @@ public class InputToOutputStream implements Runnable{
 	 * Process the Input/OutputStream used by the External Process
 	 */
 	public void run () {
+		if( is==null ) {
+			running = false;
+			return;
+		}
+
+		if( os==null ) {
+			try{ while(is.read()!=-1); }catch (Exception ex) { }
+			running = false;
+			return;
+		}
+
 		try {
-			if( is!=null) {
-				while( process.isRunning() ) {
-					if( os != null ) {
-						boolean flag = false;
-						while(is.available()>0) {
-							os.write(is.read());
-							flag = true;
-						}
-						if(flag) os.flush();			
-					}else while(is.read()!=-1);
+			while( isRunning() ) {
+				boolean flag=false;
+				while(is.available()>0 && running) {
+					os.write(is.read());
+					flag = true;
 				}
+				if(flag) os.flush();	
 			}
-		}catch (Exception ex) { ex.printStackTrace (); }
+		}catch (Exception ex) {}
+		running=false;
 	}
+	
+	/**
+	 * Stops the process
+	 */
+	public void end() { running = false; } 
+
+    /**
+     * Determines if the process is running or not
+     * @return <i>true</i> if the process is running, <i>false</i> otherwise
+     */
+    public boolean isRunning() { return process.isRunning() && running; }
+
 }
