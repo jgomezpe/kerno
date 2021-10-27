@@ -1,5 +1,5 @@
 /**
- * <p>JXON definition class (A JSON object that can directly store byte arrays).</p>
+ * <p>JSON definition class.</p>
  *
  * <p>Copyright: Copyright (c) 2019</p>
  *
