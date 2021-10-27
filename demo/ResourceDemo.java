@@ -36,14 +36,14 @@
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-package test;
+
 
 import speco.stream.Resource;
 
 /**
  * <p>Test the Resource load method.</p>
  */
-public class ResourceTest {
+public class ResourceDemo {
 	public static void main(String[] args) {
 		try {
 			System.out.println(System.currentTimeMillis());

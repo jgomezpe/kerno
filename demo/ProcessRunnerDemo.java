@@ -1,4 +1,4 @@
-package test;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -8,7 +8,7 @@ import kerno.process.ProcessRunner;
 /**
  * <p>Test the Process runner method.</p>
  */
-public class ProcessRunnerTest {
+public class ProcessRunnerDemo {
 	public static void main(String[] args) {
 		// Runs a Python interpreter
 		String prog = "x=int(input('?'))\\nprint(x+3)\\n";
