@@ -39,59 +39,59 @@
 package speco.object;
 
 import kerno.reflection.Reflection;
-import speco.jxon.JXON;
+import speco.json.JSON;
 
 /**
- * <p>Object that is configurable by using a JXON object</p>
+ * <p>Object that is configurable by using a JSON object</p>
  *
  */
 
 public interface Configurable {
 	/**
-	 * JXON Tag indicating the class type of a Configurable object
+	 * JSON Tag indicating the class type of a Configurable object
 	 */
 	public static final String CLASS = "class"; 
     
 	/**
-	 * Configures the object with the information provided by the JXON object
-	 * @param jxon Configuration information
+	 * Configures the object with the information provided by the JSON object
+	 * @param json Configuration information
 	 */
-	void config(JXON jxon);
+	void config(JSON json);
     
 	/**
-	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
+	 * Instantiates a Configurable object (if possible) using the provided JSON configuration information
 	 * @param loader Classloader used for instantiates the object
-	 * @param jxon Configuration information
-	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
+	 * @param json Configuration information
+	 * @return A Configurable object if it can be instantiated using the JSON configuration information, <i>null</i> otherwise
 	 */
-	static Configurable load(ClassLoader loader, JXON jxon) {
+	static Configurable load(ClassLoader loader, JSON json) {
 		Configurable obj = null;
 		Class<?> aClass;
 		try {
-			String name = jxon.string(CLASS);
+			String name = json.string(CLASS);
 			aClass = loader.loadClass(name);
 			obj = (Configurable)aClass.newInstance();
-			obj.config(jxon);
+			obj.config(json);
 		} catch (Exception e) {}
 		return obj;
 	}
 
 	/**
-	 * Instantiates a Configurable object (if possible) using the provided JXON configuration information
-	 * @param jxon Configuration information
-	 * @return A Configurable object if it can be instantiated using the JXON configuration information, <i>null</i> otherwise
+	 * Instantiates a Configurable object (if possible) using the provided JSON configuration information
+	 * @param json Configuration information
+	 * @return A Configurable object if it can be instantiated using the JSON configuration information, <i>null</i> otherwise
 	 */
-	static Configurable load(JXON jxon) { return load(Reflection.loader(), jxon); }
+	static Configurable load(JSON json) { return load(Reflection.loader(), json); }
 
 	/**
-	 * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JXON configuration information
+	 * Configures the provided Configurable object (instantiates if <i>null</i> is provided) using the provided JSON configuration information
 	 * @param obj Object to be configured.
-	 * @param jxon Configuration information
+	 * @param json Configuration information
 	 * @return A configured version of the <i>obj</i>, a new instance if <i>null</i> was provided as <i>obj</i> parameter
 	 */
-	static Configurable load(Configurable obj, JXON jxon) {
-		if( obj != null ) obj.config(jxon);
-		else obj = load(Reflection.loader(), jxon); 
+	static Configurable load(Configurable obj, JSON json) {
+		if( obj != null ) obj.config(json);
+		else obj = load(Reflection.loader(), json); 
 		return obj;
 	}    
 }

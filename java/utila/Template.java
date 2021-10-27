@@ -41,7 +41,7 @@ package utila;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import speco.jxon.JXON;
+import speco.json.JSON;
 
 /**
  * <p>Fill a template String, replacing tags with concrete values given by a dictionary</p>
@@ -79,7 +79,7 @@ public class Template {
 	 * @param dictionary Set of pairs <i>(TAG,value)</i> used for replacing each <i>TAG</i> by its corresponding <i>value</i>
 	 * @return A String from a template by replacing the set of tags with their associated values. 
 	 */
-	public static String get(String str, JXON dictionary){
+	public static String get(String str, JSON dictionary){
 		return get(str, dictionary, '·');
 	}
 	
@@ -92,7 +92,7 @@ public class Template {
 	 * @param c Enclosing tag character
 	 * @return A String from a template by replacing the set of tags with their associated values. 
 	 */		
-	public static String get(String str, JXON dictionary, char c){
+	public static String get(String str, JSON dictionary, char c){
 		Pattern pattern = get(c);
 		Matcher matcher = pattern.matcher(str);
 		int start = 0;

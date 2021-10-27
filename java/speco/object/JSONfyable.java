@@ -38,16 +38,16 @@
  */
 package speco.object;
 
-import speco.jxon.JXON;
+import speco.json.JSON;
 
 /**
- * <p>Object that can provided a JXON version of itself</p>
+ * <p>Object that can provided a JSON version of itself</p>
  *
  */
-public interface JXONfyable {
+public interface JSONfyable {
 	/**
-	 * Creates a JXON version of itself
-	 * @return A JXON version of itself
+	 * Creates a JSON version of itself
+	 * @return A JSON version of itself
 	 */
-	JXON jxon();
+	JSON json();
 }

@@ -36,7 +36,7 @@
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-package speco.jxon;
+package speco.json;
 
 import java.util.HashMap;
 
@@ -45,42 +45,31 @@ import kopii.Copyable;
 import speco.object.Configurable;
 
 /**
- * <p>A JSON object that can directly store byte arrays</p>
+ * <p>A JSON object </p>
  *
  */
 
-public class JXON implements Configurable, Copyable{
+public class JSON implements Configurable, Copyable{
 	/**
-	 * Inner HashMap for storing JXON key/values
+	 * Inner HashMap for storing JSON key/values
 	 */
 	protected HashMap<String, Object> attributes = new HashMap<String, Object>();
 
 	/**
-	 * Determines if the object is representing JXON (<i>extended=true</i>) or pure JSON (<i>extended=false</i>) 
+	 * Creates a JSON
 	 */
-	protected boolean extended;
-
-	/**
-	 * Creates a JXON
-	 */
-	public JXON(){ this(true); }
+	public JSON(){}
     
 	/**
-	 * Creates a JXON or JSON
-	 * @param extended Determines if representing JXON (<i>extended=true</i>) or pure JSON (<i>extended=false</i>) 
-	 */
-	public JXON(boolean extended){ this.extended = extended; }
-   
-	/**
-	 * Determines if the provided key is a valid one (has some value associated to it in the JXON)
+	 * Determines if the provided key is a valid one (has some value associated to it in the JSON)
 	 * @param key Key to be verified
-	 * @return <i>true</i> If the key has some value associated to it in the JXON, <i>false</i> otherwise
+	 * @return <i>true</i> If the key has some value associated to it in the JSON, <i>false</i> otherwise
 	 */
 	public boolean valid(String key) { return attributes.containsKey(key); }
 
 	/**
-	 * Gets the set of keys holds by the JXON
-	 * @return Set of keys holds by the JXON
+	 * Gets the set of keys holds by the JSON
+	 * @return Set of keys holds by the JSON
 	 */
 	public Iterable<String> keys(){ return attributes.keySet(); }
     
@@ -88,7 +77,7 @@ public class JXON implements Configurable, Copyable{
 	 * Sets the value for a key
 	 * @param key Key to be stored
 	 * @param obj Object associated to the key. It must be storable
-	 * @return <i>true</i> If the key can holds the object in the JXON, <i>false</i> otherwise
+	 * @return <i>true</i> If the key can holds the object in the JSON, <i>false</i> otherwise
 	 */
 	public boolean set(String key, Object obj ){
 		if( storable(obj) ){
@@ -178,13 +167,6 @@ public class JXON implements Configurable, Copyable{
 	}
 
 	/**
-	 * Gets the byte array associated to the provided tag
-	 * @param tag Tag to analyze
-	 * @return Byte array associated to the provided tag, <i>null</i> if no byte array is associated to the tag
-	 */
-	public byte[] blob( String tag ){ try{ return (byte[])get(tag);  }catch(Exception e){ return null; } }
-
-	/**
 	 * Gets the String associated to the provided tag
 	 * @param tag Tag to analyze
 	 * @return String associated to the provided tag, <i>null</i> if no String is associated to the tag
@@ -235,16 +217,16 @@ public class JXON implements Configurable, Copyable{
 	}
 
 	/**
-	 * Gets the JXON associated to the provided tag
+	 * Gets the JSON associated to the provided tag
 	 * @param tag Tag to analyze
-	 * @return JXON associated to the provided tag, <i>null</i> if no JXON is associated to the tag
+	 * @return JSON associated to the provided tag, <i>null</i> if no JSON is associated to the tag
 	 */
-	public JXON object( String tag ){ try{ return (JXON)get(tag); }catch(Exception e){ return null; } }
+	public JSON object( String tag ){ try{ return (JSON)get(tag); }catch(Exception e){ return null; } }
 
 	/**
-	 * Determines if an object can be stored by the JXON
+	 * Determines if an object can be stored by the JSON
 	 * @param obj Object to analyze
-	 * @return <i>true</i> If the provided object can be stored  by the JXON, <i>false</i> otherwise
+	 * @return <i>true</i> If the provided object can be stored  by the JSON, <i>false</i> otherwise
 	 */
 	public boolean storable(Object obj){
 		if( obj instanceof Object[] ){
@@ -253,8 +235,7 @@ public class JXON implements Configurable, Copyable{
 			while( i<v.length && storable(v[i]) ){ i++; }
 			return i==v.length;
 		}
-		return ( obj == null || obj instanceof JXON || 
-				(extended && obj instanceof byte[]) ||
+		return ( obj == null || obj instanceof JSON ||
 				obj instanceof String || obj instanceof Integer || obj instanceof Double || 
 				obj instanceof Boolean || obj instanceof double[] || obj instanceof int[] );
 	}
@@ -266,19 +247,19 @@ public class JXON implements Configurable, Copyable{
 	public void remove(String tag) { attributes.remove(tag); }
     
 	/**
-	 * Removes all keys and values from the JXON
+	 * Removes all keys and values from the JSON
 	 */
 	public void clear() { attributes.clear(); }
     
 	/**
-	 * Determines the number of key/value pairs maintained by the JXON
-	 * @return Number of key/value pairs maintained by the JXON
+	 * Determines the number of key/value pairs maintained by the JSON
+	 * @return Number of key/value pairs maintained by the JSON
 	 */
 	public int size() { return attributes.size(); }
     
 	/**
-	 * Determines if the JXON is empty or not
-	 * @return <i>true</i> if the JXON is empty, <i>false</i> otherwise
+	 * Determines if the JSON is empty or not
+	 * @return <i>true</i> if the JSON is empty, <i>false</i> otherwise
 	 */
 	public boolean isEmpty() { return size()==0; }
     
@@ -288,19 +269,18 @@ public class JXON implements Configurable, Copyable{
      */
     @Override
     public Copyable copy(){ 
-    	JXON jxon = new JXON(extended);
-    	jxon.attributes = Copier.apply(attributes);
-    	return jxon; 
+    	JSON json = new JSON();
+    	json.attributes = Copier.apply(attributes);
+    	return json; 
     }
     
     /**
-     * Copies from the provided JXON 
-     * @param jxon JXON from which the object will copy information
+     * Copies from the provided JSON 
+     * @param json JSON from which the object will copy information
      */
     @Override
-    public void config(JXON jxon){
+    public void config(JSON json){
     	attributes.clear();
-    	extended = jxon.extended;
-    	attributes = Copier.apply(jxon.attributes);
+    	attributes = Copier.apply(json.attributes);
     }
 }

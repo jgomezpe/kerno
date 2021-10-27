@@ -38,7 +38,7 @@
  */
 package utila;
 
-import speco.jxon.JXON;
+import speco.json.JSON;
 
 /**
  * <p>Internationalization utilities</p>
@@ -49,7 +49,7 @@ public class I18N {
 	/**
 	 * Dictionary for translating tags to the target language
 	 */
-	protected static JXON dictionary = new JXON();
+	protected static JSON dictionary = new JSON();
 	
 	/**
 	 * Tags delimiter character
@@ -79,7 +79,7 @@ public class I18N {
 	 * Sets the dictionary for translating tags to the target language
 	 * @param jxon Dictionary for translating tags to the target language
 	 */
-	public static void set(JXON jxon) {
+	public static void set(JSON jxon) {
 		clear();
 		for(String key:jxon.keys()) {
 			String value = jxon.string(key);
